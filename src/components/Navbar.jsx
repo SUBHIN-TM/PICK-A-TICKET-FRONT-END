@@ -1,6 +1,7 @@
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineBars3 } from "react-icons/hi2";
 
+
 const Navbar=()=>{
 return(
     <div className="w-full bg-pink-600 h-20 grid items-center">
