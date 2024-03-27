@@ -1,7 +1,9 @@
+import Navbar from "./Navbar"
+
 const HomePage=()=>{
     return(
         <>
-        <h1 className="text-xl">Home page</h1>
+        <Navbar/>
         </>
     )
 
