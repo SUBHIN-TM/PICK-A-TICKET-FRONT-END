@@ -16,10 +16,10 @@ const movieDataBaseS=[...movieDataBase,...movieDataBase,...movieDataBase]
     slidesToScroll:1
  }
     return(
-        <div className="overflow-hidden">
+        <div className="overflow-hidden max-h-96">
         <Slider {...settings}>      
-            {movieDataBaseS.map((data)=>(
-             <img className="w-12" key={data.image} src={data.image} alt="" />
+            {movieDataBaseS.map((data,index)=>(
+             <img className="w-12" key={index} src={data.image} alt="" />
             ))}           
 
         </Slider>

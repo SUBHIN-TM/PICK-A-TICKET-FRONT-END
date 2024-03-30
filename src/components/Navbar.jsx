@@ -4,7 +4,7 @@ import { HiOutlineBars3 } from "react-icons/hi2";
 
 const Navbar=()=>{
 return(
-    <div className="w-full bg-pink-600 h-20 grid items-center">
+    <div className="text-white w-full bg-black h-20 grid items-center">
        <div className="flex md:flex md:justify-between w-12/12 ">
         <div className="w-11/12 font-bold font-mono text-2xl px-7 md:w-4/12">PIC₭ A TIC₭ET</div>
         <div className="md:hidden text-2xl px-7 w-3/12  flex justify-end items-center "><HiOutlineBars3 /></div>
