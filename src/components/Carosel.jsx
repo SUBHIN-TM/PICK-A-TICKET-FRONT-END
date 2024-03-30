@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 const Carosel=({movieDataBase})=>{
 const movieDataBaseS=[...movieDataBase,...movieDataBase,...movieDataBase]
-//  console.log("carosel",movieDataBase);
+
  const settings ={
     infinite:true,
     speed:1000,
@@ -14,6 +14,10 @@ const movieDataBaseS=[...movieDataBase,...movieDataBase,...movieDataBase]
     autoplaySpeed:1000,
     slidesToShow:6,
     slidesToScroll:1
+ }
+
+ if(!movieDataBase){
+    return 
  }
     return(
         <div className="overflow-hidden max-h-96">

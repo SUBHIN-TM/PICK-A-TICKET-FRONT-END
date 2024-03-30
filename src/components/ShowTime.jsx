@@ -8,7 +8,7 @@ const ShowTime = () => {
   useEffect(()=>{ //WHENEVER RETRIEVE THE DATA FROM REDUX IT SHOULD COPY IN USEEFFECT OTHER WISE IT WILL MAKE IT AS A INFINITE LOOP
     setshows(movieDataBase)
   },[movieDataBase])
-  console.log("shows",shows);
+  // console.log("shows",shows);
 
   const currentDate = new Date(); //SAVED CURRENT DATE ,NOW 3 DAYS WILL SHOW + CURRENT DAY
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -40,8 +40,8 @@ const ShowTime = () => {
         ))}
       </div>
       <div className="">
-        {shows.map((shows)=> (
-          <div className="text-white xl:flex  my-14 border border-gray-600 p-8" key={shows._id}>
+        {shows.map((shows,index)=> (
+          <div className="text-white xl:flex   my-14 hover:border hover:border-gray-500 p-8 bg-gray-900" key={index}>
             <div className="md:flex ">
               <img className="m-auto md:m-0" src={shows.image} alt="" />
               <div className="p-4 font-bold text-center md:text-start ">
@@ -52,7 +52,7 @@ const ShowTime = () => {
             </div>
             <div className="grid grid-cols-2 gap-2 sm:flex xl:ml-10 mt-4 lg:mt-0 justify-center md:justify-normal xl:justify-normal">
               {shows?.shows?.map((shws,index)=> (
-                <div key={index} className="m-auto sm:m-0  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4">
+                <div key={index} className="m-auto sm:m-0  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4 bg-black">
                   <span>{shws.screen}</span><br />
                   <span>{shws.time}</span>     
                   </div>
