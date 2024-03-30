@@ -28,7 +28,7 @@ const ShowTime = () => {
 
    
   return (
-    <div className="bg-black p-11">
+    <div id="show-time" className="bg-black p-11">
       <div>
         <h1 className="text-white md:text-2xl text-lg  my-8">SHOW TIME</h1>
       </div>
@@ -41,7 +41,7 @@ const ShowTime = () => {
       </div>
       <div className="">
         {shows.map((shows)=> (
-          <div className="text-white lg:flex  my-14 border border-gray-600 p-8" key={shows._id}>
+          <div className="text-white xl:flex  my-14 border border-gray-600 p-8" key={shows._id}>
             <div className="md:flex ">
               <img className="m-auto md:m-0" src={shows.image} alt="" />
               <div className="p-4 font-bold text-center md:text-start ">
@@ -50,7 +50,7 @@ const ShowTime = () => {
                 <h1>{shows.duration}</h1>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-2 sm:flex lg:ml-10 mt-4 lg:mt-0 ">
+            <div className="grid grid-cols-2 gap-2 sm:flex xl:ml-10 mt-4 lg:mt-0 justify-center md:justify-normal xl:justify-normal">
               {shows?.shows?.map((shws,index)=> (
                 <div key={index} className="m-auto sm:m-0  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4">
                   <span>{shws.screen}</span><br />
