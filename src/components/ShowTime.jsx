@@ -52,7 +52,7 @@ const ShowTime = () => {
             </div>
             <div className="grid grid-cols-2 gap-2 sm:flex lg:ml-10 mt-4 lg:mt-0 ">
               {shows?.shows?.map((shws,index)=> (
-                <div key={index} className="m-auto  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4">
+                <div key={index} className="m-auto sm:m-0  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4">
                   <span>{shws.screen}</span><br />
                   <span>{shws.time}</span>     
                   </div>
