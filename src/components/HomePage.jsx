@@ -13,6 +13,7 @@ const HomePage=()=>{
     const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
     const dispatch=useDispatch() //DISPTCH USED TO DEFINE WHAT KIND OF ACTION ARE WE DOING
     const [comingSoon,setComingSoon] =useState("") //FOR STORING COMING MOVIES IMAGES
+   
     useEffect(()=>{
         home()
     },[])

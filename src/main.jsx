@@ -8,9 +8,8 @@ import appStore from './redux/appStore.js'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
+
     <Provider store={appStore}>
     <HomePage />
     </Provider>
-  </React.StrictMode>,
 )

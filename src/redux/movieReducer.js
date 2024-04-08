@@ -17,3 +17,5 @@ const movieReducer = createSlice({
 
 export const {fetchDetails,clearDetails}=movieReducer.actions;
 export default movieReducer.reducer
+
+
