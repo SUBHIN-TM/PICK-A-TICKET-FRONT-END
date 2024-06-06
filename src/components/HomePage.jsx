@@ -11,7 +11,7 @@ import { fetchDetails } from "../redux/movieReducer"
 
 const HomePage=()=>{
     const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
-    
+
     const dispatch=useDispatch() //DISPTCH USED TO DEFINE WHAT KIND OF ACTION ARE WE DOING
     const [comingSoon,setComingSoon] =useState("") //FOR STORING COMING MOVIES IMAGES
    
@@ -22,7 +22,7 @@ const HomePage=()=>{
     const home=async()=>{
      try {
         const response=await axios.get('http://localhost:3000/')
-        dispatch(fetchDetails(response.data.allData)) //USING DISPATCH WE CALLED AN ACTION FETCHDETAILS IT IS ALREADY WRITTEN FUNCTION FOR STORE THE DATAS TO THE DATABASE OF REDUX
+        dispatch(fetchDetails({movies:response.data.allData,screens:response.data.screens})) //USING DISPATCH WE CALLED AN ACTION FETCHDETAILS IT IS ALREADY WRITTEN FUNCTION FOR STORE THE DATAS TO THE DATABASE OF REDUX
         setComingSoon(response.data.ComingSoon) //FETCHED COMING SOON MOVIE DETAILS FROM DATABASE
     } catch (error) {
         console.error(error)

@@ -3,8 +3,11 @@ import { useDispatch,useSelector } from "react-redux";
 
 const ShowTime = () => {
   const [shows,setshows]=useState("")
-  const [Formateddate,setFormateddate]=useState("")
+  const [selectedDate,setSelectedDate]=useState("")
   const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
+  const screensDatabase=useSelector((store) =>store.MovieDataBase.screens)
+
+// console.log(screensDatabase);
 
   useEffect(()=>{ //WHENEVER RETRIEVE THE DATA FROM REDUX IT SHOULD COPY IN USEEFFECT OTHER WISE IT WILL MAKE IT AS A INFINITE LOOP
     setshows(movieDataBase)
@@ -30,9 +33,7 @@ const ShowTime = () => {
 
 
   const chooseDate=(date)=>{
-    console.log(date);
   let formattedDate =new Date(date)
-  setFormateddate(formattedDate)
   let filteredMovies=movieDataBase.filter((movie)=>{
     const fromDate=new Date(movie?.releaseRange?.from)
     const toDate=new Date(movie?.releaseRange?.to)
@@ -40,8 +41,13 @@ const ShowTime = () => {
   })
   // console.log(filteredMovies);
   setshows(filteredMovies)
+  setSelectedDate(formattedDate)
   }
 
+
+  const slotSelect=({screen,time,movie})=>{
+    console.log(screen,time,movie,selectedDate);
+  }
 
   if(!shows){
     return "Loading"
@@ -63,7 +69,7 @@ const ShowTime = () => {
       </div>
       <div className="">
         {shows.map((shows,index)=> (
-          <div className="text-white xl:flex   my-14 hover:border hover:border-gray-500 p-8 bg-gray-900" key={index}>
+          <div className="text-white   my-14 hover:border hover:border-gray-500 p-8 bg-gray-900" key={index}>
             <div className="md:flex ">
               <img className="m-auto md:m-0" src={shows.image} alt="" />
               <div className="p-4 font-bold text-center md:text-start ">
@@ -73,11 +79,19 @@ const ShowTime = () => {
               </div>
             </div>
           
-            <div className="grid grid-cols-2 gap-2 sm:flex xl:ml-10 mt-4 lg:mt-0 justify-center md:justify-normal xl:justify-normal">
-              {shows?.shows?.map((shws,index)=> (
-                <div key={index} className="m-auto sm:m-0  lg:m-0 lg:mt-5 mt-1 border w-28 text-center p-1 m rounded-sm  hover:bg-white hover:text-black cursor-pointer sm:mr-2 lg:h-16 lg:mx-4 bg-black">
-                  <span>{shws.screen}</span><br />
-                  <span>{shws.time}</span>     
+            <div className=" mt-6 ">
+              {screensDatabase
+              .filter((screen)=> screen.movie == shows.name)
+              .map((screen)=> (
+                <div key={screen._id} className="flex justify-evenly">
+                  <span className="text-center flex  items-center font-bold">{screen.screen}</span> 
+                  {screen.times.map((time)=> (
+                    <div className="flex" key={time}>
+                      <span className="border cursor-pointer p-1  hover:bg-white hover:text-black " onClick={()=>slotSelect({screen:screen.screen,time:time,movie:shows.name})} >{time}</span><br/>   
+                    </div>
+                 
+                  ))}
+                 
                   </div>
               ))}
             </div>

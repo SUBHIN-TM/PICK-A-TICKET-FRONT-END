@@ -8,7 +8,8 @@ const movieReducer = createSlice({
     },
     reducers:{
         fetchDetails:(state,action) =>{
-            state.movieDetails=action.payload
+            state.movieDetails=action.payload.movies
+            state.screens=action.payload.screens
         },
         clearDetails:(state)=>{
             state.movieDetails=""
