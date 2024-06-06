@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
+import Booking from "./Booking";
+import { useNavigate } from "react-router-dom";
 
 const ShowTime = () => {
   const [shows,setshows]=useState("")
   const [selectedDate,setSelectedDate]=useState("")
   const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
   const screensDatabase=useSelector((store) =>store.MovieDataBase.screens)
-
+ const navigate=useNavigate();
 // console.log(screensDatabase);
 
   useEffect(()=>{ //WHENEVER RETRIEVE THE DATA FROM REDUX IT SHOULD COPY IN USEEFFECT OTHER WISE IT WILL MAKE IT AS A INFINITE LOOP
@@ -46,7 +48,14 @@ const ShowTime = () => {
 
 
   const slotSelect=({screen,time,movie})=>{
-    console.log(screen,time,movie,selectedDate);
+    // console.log(screen,time,movie,selectedDate);
+  navigate("/booking",{
+    state:{
+      screen,time,movie,selectedDate
+    }
+  })
+ 
+   
   }
 
   if(!shows){
