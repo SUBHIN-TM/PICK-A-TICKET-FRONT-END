@@ -20,7 +20,7 @@ const movieDataBaseS=[...movieDataBase,...movieDataBase,...movieDataBase]
     return 
  }
     return(
-        <div className="overflow-hidden max-h-96">
+        <div className="overflow-hidden ">
         <Slider {...settings}>      
             {movieDataBaseS.map((data,index)=>(
              <img className="w-12" key={index} src={data.image} alt="" />

@@ -8,8 +8,13 @@ const ShowTime = () => {
 
   useEffect(()=>{ //WHENEVER RETRIEVE THE DATA FROM REDUX IT SHOULD COPY IN USEEFFECT OTHER WISE IT WILL MAKE IT AS A INFINITE LOOP
     setshows(movieDataBase)
+    todayMovie()
   },[movieDataBase])
   
+
+  const todayMovie=()=>{ //IT WILL FILTER TODAY DATE AVAILBLE MOVIES LIST
+    chooseDate(Date.now())
+  }
 
   
   const currentDate = new Date(); //SAVED CURRENT DATE ,NOW 3 DAYS WILL SHOW + CURRENT DAY
@@ -24,13 +29,8 @@ const ShowTime = () => {
   }
 
 
-  if(!shows){
-    return
-  }
-
-
-
   const chooseDate=(date)=>{
+    console.log(date);
   let formattedDate =new Date(date)
   setFormateddate(formattedDate)
   let filteredMovies=movieDataBase.filter((movie)=>{
@@ -38,15 +38,17 @@ const ShowTime = () => {
     const toDate=new Date(movie?.releaseRange?.to)
     return formattedDate  >= fromDate && formattedDate  <=toDate
   })
-  console.log(filteredMovies);
+  // console.log(filteredMovies);
   setshows(filteredMovies)
   }
 
-  console.log(!Formateddate);
-  if(!Formateddate){
-    chooseDate(Date.now())
+
+  if(!shows){
+    return "Loading"
   }
-  
+
+
+
   return (
     <div id="show-time" className="bg-black p-11">
       <div>

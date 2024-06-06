@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const movieReducer = createSlice({
     name:'MovieDataBase',
     initialState:{
-        movieDetails:[{}]
+        movieDetails:[{}],
+        screens:[{}]
     },
     reducers:{
         fetchDetails:(state,action) =>{
