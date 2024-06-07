@@ -37,8 +37,8 @@ const Booking = () => {
     } catch (error) {
       console.error(error);
     }
-
   }
+
   console.log(selectedScreen?.totalSeats);
   console.log(seatToMap);
 
@@ -64,15 +64,17 @@ const Booking = () => {
         <span>{selectedScreen.selectedDate ? selectedScreen.selectedDate.toString() : null}</span>
       </div>
       <div>
-  {seatToMap.map((key, index) => (
-  selectedScreen?.totalSeats?.[key] == null ?
-    (<span onClick={() => seatSelection(key)} className='bg-black text-white mx-1 p-1 cursor-pointer' key={index}>{key}</span>) :
-    (selectedSeatNumbers.includes(parseInt(key)) ?
-      (<span className='bg-green-600 text-white mx-1 p-1 ' key={index}>{key}</span>) :
-      (<span className='bg-red-600 text-white mx-1 p-1 ' key={index}>{key}</span>)
-    )
-))}
-
+      <div>
+        {seatToMap.map((key, index) => (
+          <span key={index}  onClick={() => seatSelection(parseInt(key))}
+            className={`mx-1 p-1 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null 
+                ? 'bg-red-600' 
+                : selectedSeatNumbers.includes(parseInt(key)) 
+                ? 'bg-green-600' 
+                : 'bg-black'}`} >{key}
+          </span>
+        ))}
+      </div>
 </div>
 
     </>
