@@ -6,7 +6,7 @@ import HomePage from './components/HomePage.jsx'
 import appStore from './redux/appStore.js'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Booking from './components/Booking.jsx'
-
+import './App.css'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
