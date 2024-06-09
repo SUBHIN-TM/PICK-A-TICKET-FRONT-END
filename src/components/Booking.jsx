@@ -58,7 +58,7 @@ const Booking = () => {
   return (
     <div className=' bg-slate-400 h-screen'>
       <div className='grid p-3 mb-3'>
-        <span>{selectedScreen.screen} [ <span className='font-bold'>{selectedScreen.movie}</span> ]</span>
+        <span> <span className='font-bold text-xl'>{selectedScreen.movie}</span> </span>
         <span>Date : {selectedScreen.selectedDate ? selectedScreen.selectedDate.toString() : null} </span>
         <span>Time : {selectedScreen.time} </span>
       </div>
@@ -74,7 +74,7 @@ const Booking = () => {
                   ? 'bg-red-600'
                   : selectedSeatNumbers.includes(parseInt(key))
                     ? 'bg-green-600'
-                    : 'bg-black'}`} >{key}
+                    : 'bg-black'}`} >A{key}
               </span>
             ))}
           </div>
@@ -87,7 +87,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >B{key}
                 </span>
               ))}
             </div>
@@ -99,7 +99,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >B{key}
                 </span>
               ))}
             </div>
@@ -114,7 +114,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >C{key}
                 </span>
               ))}
             </div>
@@ -126,7 +126,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >C{key}
                 </span>
               ))}
             </div>
@@ -140,7 +140,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >D{key}
                 </span>
               ))}
             </div>
@@ -152,7 +152,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >D{key}
                 </span>
               ))}
             </div>
@@ -166,7 +166,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >E{key}
                 </span>
               ))}
             </div>
@@ -178,7 +178,7 @@ const Booking = () => {
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >E{key}
                 </span>
               ))}
             </div>
@@ -188,11 +188,11 @@ const Booking = () => {
             <div>
               {seatToMap.slice(98, 110).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(parseInt(key))}
-                  className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >F{key}
                 </span>
               ))}
             </div>
@@ -200,11 +200,11 @@ const Booking = () => {
             <div>
               {seatToMap.slice(110, 122).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(parseInt(key))}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={` inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
                     : selectedSeatNumbers.includes(parseInt(key))
                       ? 'bg-green-600'
-                      : 'bg-black'}`} >{key}
+                      : 'bg-black'}`} >F{key}
                 </span>
               ))}
             </div>
