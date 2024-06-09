@@ -15,6 +15,9 @@ const Booking = () => {
 
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
   const location = useLocation();
+ const [name,setName]=useState("")
+ const [email,setEmail]=useState("")
+ const [mobile,setMobile]=useState("")
 
 
   useEffect(() => {
@@ -69,10 +72,10 @@ const Booking = () => {
 
           <div className=' border p-5'>
             {seatToMap.slice(0, 26).map((key, index) => (
-              <span key={index} onClick={() => seatSelection(parseInt(key))}
+              <span key={index} onClick={() => seatSelection(`A${key}`)}
                 className={`text-center inline-block w-10 mx-[4.20px]  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                   ? 'bg-red-600'
-                  : selectedSeatNumbers.includes(parseInt(key))
+                  : selectedSeatNumbers.includes(`A${key}`)
                     ? 'bg-green-600'
                     : 'bg-black'}`} >A{key}
               </span>
@@ -82,10 +85,10 @@ const Booking = () => {
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(26, 38).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`B${key}`)}
                   className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >B{key}
                 </span>
@@ -94,10 +97,10 @@ const Booking = () => {
 
             <div>
               {seatToMap.slice(38, 50).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`B${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >B{key}
                 </span>
@@ -109,10 +112,10 @@ const Booking = () => {
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(50, 62).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`C${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`C${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >C{key}
                 </span>
@@ -121,10 +124,10 @@ const Booking = () => {
 
             <div>
               {seatToMap.slice(62, 74).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`C${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`C${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >C{key}
                 </span>
@@ -135,10 +138,10 @@ const Booking = () => {
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(74, 86).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`D${key}`)}
                   className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`D${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >D{key}
                 </span>
@@ -147,10 +150,10 @@ const Booking = () => {
 
             <div>
               {seatToMap.slice(86, 98).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`D${key}`)}
                   className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`D${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >D{key}
                 </span>
@@ -161,10 +164,10 @@ const Booking = () => {
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(74, 86).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`E${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`E${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >E{key}
                 </span>
@@ -173,10 +176,10 @@ const Booking = () => {
 
             <div>
               {seatToMap.slice(86, 98).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`E${key}`)}
                   className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`E${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >E{key}
                 </span>
@@ -187,10 +190,10 @@ const Booking = () => {
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(98, 110).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`F${key}`)}
                   className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`F${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >F{key}
                 </span>
@@ -199,10 +202,10 @@ const Booking = () => {
 
             <div>
               {seatToMap.slice(110, 122).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(parseInt(key))}
+                <span key={index} onClick={() => seatSelection(`F${key}`)}
                   className={` inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600'
-                    : selectedSeatNumbers.includes(parseInt(key))
+                    : selectedSeatNumbers.includes(`F${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >F{key}
                 </span>
@@ -226,20 +229,15 @@ const Booking = () => {
             <p>Ticket Price - RS 150</p>
             <p>Seat Numbers - {`${selectedSeatNumbers}`}</p>
             <p>Total - ₹{selectedSeatNumbers.length * 150} </p>
-            <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input className='border' type="text" /></div>
-            <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input className='border' type="text" /></div>
-            <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input className='border' type="number" /></div>
+            <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input   onChange={(e)=>setName(e.target.value)} className=' text-black border' type="text"  value={name}/></div>
+            <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input onChange={(e)=>setEmail(e.target.value)} className='border text-black' type="text" value={email} /></div>
+            <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e)=>setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
             <div className='flex justify-around mt-2'>
               <div><button className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
               <div><button className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
             </div>
-
- 
+             
         </div>
-
-
-
-
       </div>
 
 
