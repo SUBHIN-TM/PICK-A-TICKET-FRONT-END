@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert'; // Import react-confirm-alert module
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const Booking = () => {
   const [seatToMap, setSeatToMap] = useState([])
@@ -10,7 +12,8 @@ const Booking = () => {
     movie: null,
     selectedDate: null,
     totalSeats: null,
-    bookingDetails: []
+    bookingDetails: [],
+    objectId:null
   });
 
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
@@ -37,15 +40,15 @@ const Booking = () => {
       const response = await axios.post('http://localhost:3000/booking', {
         screen, time, movie, selectedDate
       });
-      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats: response?.data?.totalSeats }));
-      console.log(response.data);
+      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats: response?.data?.totalSeats,objectId:response?.data?._id }));
+      // console.log(response.data);
       setSeatToMap(Object.keys(response?.data?.totalSeats))
     } catch (error) {
       console.error(error);
     }
   }
 
-  // console.log(selectedScreen?.totalSeats);
+  // console.log("all details",selectedScreen);
   // console.log(seatToMap);
 
 
@@ -58,7 +61,7 @@ const Booking = () => {
 
   }
 
-  console.log(selectedSeatNumbers);
+  // console.log(selectedSeatNumbers);
 
 
 const cancelBooking=()=>{
@@ -66,6 +69,7 @@ const cancelBooking=()=>{
 }
 
 const continueBooking=()=>{
+  let isValidated=true
  
   const emailCheck=(typedMail)=>{
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -73,20 +77,56 @@ const continueBooking=()=>{
   }
 
 if(name.trim().length>=20 || name.trim().length <=2){
+  isValidated=false
   setNameError("Length Should Between 3 - 20")
 }else{
   setNameError("")
 }
 if(!emailCheck(email)){
+  isValidated=false
   setEmailError("Email should be valid")
 }else{
   setEmailError("")
 }
 if(mobile.length!=10){
+  isValidated=false
   setMobileError("Valid Mobile Number Required")
 }else{
   setMobileError("")
 }
+if(!isValidated){
+  return 
+}else{
+  //VALIDATED 
+  confirmAlert({
+    title: 'Confirm booking',
+    message: 'Are you sure you want to proceed with the booking?',
+    buttons: [
+      {
+        label: 'Yes',
+        onClick: () => {
+          bookingRequest()
+          // Perform further actions for valid data and confirmed booking
+        }
+      },
+      {
+        label: 'No',
+        onClick: () => {
+        return
+         
+        }
+      }
+    ]
+  });
+ 
+}
+}
+
+//POST REQUST FOR BOOKING SEATS
+const bookingRequest=()=>{
+  alert("post")
+  let total=selectedSeatNumbers.length * 150;
+  console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
 }
 
 
