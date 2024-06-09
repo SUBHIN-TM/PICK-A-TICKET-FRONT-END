@@ -18,6 +18,9 @@ const Booking = () => {
  const [name,setName]=useState("")
  const [email,setEmail]=useState("")
  const [mobile,setMobile]=useState("")
+ const [nameError,setNameError]=useState("")
+ const [emailError,setEmailError]=useState("")
+ const [mobileError,setMobileError]=useState("")
 
 
   useEffect(() => {
@@ -56,6 +59,35 @@ const Booking = () => {
   }
 
   console.log(selectedSeatNumbers);
+
+
+const cancelBooking=()=>{
+  setSelectedSeatNumbers([])
+}
+
+const continueBooking=()=>{
+ 
+  const emailCheck=(typedMail)=>{
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(typedMail)
+  }
+
+if(name.trim().length>=20 || name.trim().length <=2){
+  setNameError("Length Should Between 3 - 20")
+}else{
+  setNameError("")
+}
+if(!emailCheck(email)){
+  setEmailError("Email should be valid")
+}else{
+  setEmailError("")
+}
+if(mobile.length!=10){
+  setMobileError("Valid Mobile Number Required")
+}else{
+  setMobileError("")
+}
+}
 
 
   return (
@@ -230,13 +262,16 @@ const Booking = () => {
             <p>Seat Numbers - {`${selectedSeatNumbers}`}</p>
             <p>Total - ₹{selectedSeatNumbers.length * 150} </p>
             <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input   onChange={(e)=>setName(e.target.value)} className=' text-black border' type="text"  value={name}/></div>
+            {nameError && <p className='text-red-500'>{nameError}</p>}
             <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input onChange={(e)=>setEmail(e.target.value)} className='border text-black' type="text" value={email} /></div>
+            {emailError && <p className='text-red-500'>{emailError}</p>}
             <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e)=>setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
+            {mobileError && <p className='text-red-500'>{mobileError}</p>}
             <div className='flex justify-around mt-2'>
-              <div><button className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
-              <div><button className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
+              <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
+              <div><button onClick={cancelBooking} className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
             </div>
-             
+
         </div>
       </div>
 
