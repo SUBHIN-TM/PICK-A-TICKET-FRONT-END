@@ -304,7 +304,10 @@ const bookingRequest= async()=>{
 
    
           <div className=' p-4 bg-slate-500 text-lg border-2 border-black text-white mt-32 sm:mt-0  sm:w[0px]'>
-            <h1 className='text-xl my-1 font-bold'>Show Details</h1>
+          <div className='flex items-center'> <span className='w-6 h-6 bg-black inline-block mr-2'></span> Available</div>
+          <div className='flex items-center my-1'> <span className='w-6 h-6 bg-red-600 inline-block mr-2'></span> Booked</div>
+          <div className='flex items-center'> <span className='w-6 h-6 bg-green-600 inline-block mr-2'></span> Selected</div>
+            <h1 className='text-xl my-1 font-bold mt-3'>Show Details</h1>
             <p>Screen - {selectedScreen.screen}</p>
             <p>Movie - {selectedScreen.movie}</p>
             <p>Timing - {selectedScreen.time} </p>
