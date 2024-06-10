@@ -1,10 +1,22 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
 import { HiOutlineBars3 } from "react-icons/hi2";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 const Navbar=()=>{
     const [toggle,setToggle]=useState(false)
+    const navigate=useNavigate()
+    const location=useLocation()
+    const [isTicketPage,setIsTicketPage]=useState(false)
+
+    useEffect(() => {
+        if (location.pathname === '/ticketGenerator') {
+            setIsTicketPage(true);
+        } else {
+            setIsTicketPage(false);
+        }
+    }, [location.pathname]);
 
     const handleShowTimeClick =()=>{
      const showtimecomponent=document.getElementById('show-time')
@@ -27,9 +39,14 @@ const Navbar=()=>{
         toggle?setToggle(false):setToggle(true)
     }
 
+  const ticketGen=()=>{
+    navigate('/ticketGenerator')
+  }
 
-
-
+  
+  if(isTicketPage){
+    alert("welcome to ticket generator page")
+  }
 
 return(
     <>
@@ -43,7 +60,7 @@ return(
             <button onClick={handlecomingSoonClick}>COMING SOON</button>
             {/* <button>CONTACT US</button> */}
         </div>
-        <div className="cursor-pointer hidden  md:text-sm lg:text-lg px-7 w-3/12  font-semibold md:flex justify-end items-center ">TICKET GENERATOR</div>
+        <div onClick={ticketGen} className="cursor-pointer hidden  md:text-sm lg:text-lg px-7 w-3/12  font-semibold md:flex justify-end items-center ">TICKET GENERATOR</div>
        </div>
     </div>
 
@@ -54,7 +71,7 @@ return(
                 <button className="flex justify-end" onClick={handleShowTimeClick}>SHOW TIME</button>
                 <button className="flex justify-end" onClick={handlecomingSoonClick}>COMING SOON</button>
                 {/* <button className="flex justify-end" >CONTACT US</button> */}
-                <div className="cursor-pointer flex justify-end text-2xl">Ticket Generator</div>
+                <div onClick={ticketGen} className="cursor-pointer flex justify-end text-2xl">Ticket Generator</div>
             </div>          
         </div>
     )}
