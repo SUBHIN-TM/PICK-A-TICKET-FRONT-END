@@ -17,6 +17,8 @@ const Booking = () => {
   });
 
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
+
+
   const location = useLocation();
  const [name,setName]=useState("")
  const [email,setEmail]=useState("")
@@ -123,10 +125,19 @@ if(!isValidated){
 }
 
 //POST REQUST FOR BOOKING SEATS
-const bookingRequest=()=>{
+const bookingRequest= async()=>{
   alert("post")
   let total=selectedSeatNumbers.length * 150;
   console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
+  try {
+    const response=await axios.post('http://localhost:3000/seatSelection',{
+      total,selectedScreen,selectedSeatNumbers,name,email,mobile
+    })
+    
+  } catch (error) {
+    console.error(error);
+  }
+
 }
 
 
@@ -186,7 +197,7 @@ const bookingRequest=()=>{
               {seatToMap.slice(50, 62).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`C${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
-                    ? 'bg-red-600'
+                    ? 'bg-red-600 pointer-events-none'
                     : selectedSeatNumbers.includes(`C${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >C{key}
@@ -307,10 +318,15 @@ const bookingRequest=()=>{
             {emailError && <p className='text-red-500'>{emailError}</p>}
             <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e)=>setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
             {mobileError && <p className='text-red-500'>{mobileError}</p>}
-            <div className='flex justify-around mt-2'>
-              <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
+           
+              { selectedSeatNumbers.length>0&& (
+                 <div className='flex justify-around mt-2'>
+                <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
               <div><button onClick={cancelBooking} className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
-            </div>
+              </div>
+              )}
+              
+           
 
         </div>
       </div>
