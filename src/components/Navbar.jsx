@@ -41,9 +41,9 @@ return(
             <button onClick={handleHomeClick}>HOME</button>
             <button onClick={handleShowTimeClick}>SHOW TIME</button>
             <button onClick={handlecomingSoonClick}>COMING SOON</button>
-            <button>CONTACT US</button>
+            {/* <button>CONTACT US</button> */}
         </div>
-        <div className="cursor-pointer hidden text-2xl px-7 w-3/12 md:flex justify-end items-center "><CgProfile /></div>
+        <div className="cursor-pointer hidden  md:text-sm lg:text-lg px-7 w-3/12  font-semibold md:flex justify-end items-center ">TICKET GENERATOR</div>
        </div>
     </div>
 
@@ -53,8 +53,8 @@ return(
                 <button className="flex justify-end" onClick={handleHomeClick}>HOME</button>
                 <button className="flex justify-end" onClick={handleShowTimeClick}>SHOW TIME</button>
                 <button className="flex justify-end" onClick={handlecomingSoonClick}>COMING SOON</button>
-                <button className="flex justify-end" >CONTACT US</button>
-                <div className="cursor-pointer flex justify-end text-2xl"><CgProfile /></div>
+                {/* <button className="flex justify-end" >CONTACT US</button> */}
+                <div className="cursor-pointer flex justify-end text-2xl">Ticket Generator</div>
             </div>          
         </div>
     )}

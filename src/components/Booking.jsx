@@ -145,8 +145,11 @@ const bookingRequest= async()=>{
     setSwalProps({
       show: true,
       title: response.data.message,
-      text: `Name : ${response.data.details.name} "\n" Seat Numbers : ${response.data.details.seatNumber.map((data)=> data)}`,
-  });
+      html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br> Copy The ID to Generate Ticket  <b>${response.data.details._id}</b>`,
+      onConfirm: () => {
+        window.location.reload();
+      }
+    });
     
   } catch (error) {
     console.error(error);
