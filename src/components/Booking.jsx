@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; // Import react-confirm-alert module
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import SweetAlert2 from 'react-sweetalert2';
 
 const Booking = () => {
   const [seatToMap, setSeatToMap] = useState([])
@@ -16,6 +17,8 @@ const Booking = () => {
     objectId:null
   });
 
+  const [waiting,setWaiting]=useState(false)
+  const [swalProps, setSwalProps] = useState({}); //  SWEET ALERT
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
 
 
@@ -126,16 +129,31 @@ if(!isValidated){
 
 //POST REQUST FOR BOOKING SEATS
 const bookingRequest= async()=>{
-  alert("post")
+  setWaiting(true)
   let total=selectedSeatNumbers.length * 150;
-  console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
+  // console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
   try {
     const response=await axios.post('http://localhost:3000/seatSelection',{
       total,selectedScreen,selectedSeatNumbers,name,email,mobile
     })
+    setSelectedSeatNumbers([])
+    setName("")
+    setEmail("")
+    setMobile("")
+    console.log(response.data);
+
+    setSwalProps({
+      show: true,
+      title: response.data.message,
+      text: `Name : ${response.data.details.name} "\n" Seat Numbers : ${response.data.details.seatNumber.map((data)=> data)}`,
+  });
     
   } catch (error) {
     console.error(error);
+  }
+
+  finally{
+    setWaiting(false)
   }
 
 }
@@ -321,8 +339,8 @@ const bookingRequest= async()=>{
             {emailError && <p className='text-red-500'>{emailError}</p>}
             <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e)=>setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
             {mobileError && <p className='text-red-500'>{mobileError}</p>}
-           
-              { selectedSeatNumbers.length>0&& (
+  
+              { selectedSeatNumbers.length>0&& !waiting && (
                  <div className='flex justify-around mt-2'>
                 <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
               <div><button onClick={cancelBooking} className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
@@ -336,7 +354,10 @@ const bookingRequest= async()=>{
 
 
 
-
+      <div>
+    <SweetAlert2 {...swalProps} />
+</div>
+    
 
 
 
