@@ -63,6 +63,7 @@ const ShowTime = () => {
   }
 
 
+  console.log("day",selectedDate.getDate());
 
   return (
     <div id="show-time" className="bg-black p-11">
@@ -70,8 +71,11 @@ const ShowTime = () => {
         <h1 className="text-white md:text-2xl text-lg  my-8">SHOW TIME</h1>
       </div>
       <div className="w-12/12 flex justify-around sm:text-lg text-sm sm:w-/12 lg:w-7/12 text-gray-500 ">
-        {dates.map((date) => (
-          <button onClick={()=>chooseDate(date)} className="border p-1 m-1 rounded-lg sm:p-2 hover:bg-white hover:text-black" key={`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}>
+        {dates.map((date) => 
+        (
+       
+          <button onClick={()=>chooseDate(date)} className={`${date.getDate()===selectedDate.getDate() ? "bg-white text-black" : ""} border p-1 m-1 rounded-lg sm:p-2 hover:bg-white hover:text-black`}  key={`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}>
+            { console.log(date.getDate())}
             {days[date.getDay()]} {date.getDate()}-{date.getMonth() + 1} {date.getFullYear()}
           </button>
         ))}
