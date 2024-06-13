@@ -7,7 +7,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import {useDispatch, useSelector } from "react-redux"
 import { fetchDetails } from "../redux/movieReducer"
-
+import { ClipLoader } from 'react-spinners';
 
 const HomePage=()=>{
     const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
@@ -28,6 +28,19 @@ const HomePage=()=>{
         console.error(error)
      }
     }
+   
+    if(!movieDataBase || !comingSoon){
+        return(
+            <div >
+             <Navbar />
+             <div className="bg-black text-white h-[524px] flex items-center justify-center">
+                    <ClipLoader color="#ffffff" size={100} />
+                </div>
+            <Footer/>
+            </div>
+        )
+    }
+
 
     // console.log("Redux Database",movieDataBase);
     return(
