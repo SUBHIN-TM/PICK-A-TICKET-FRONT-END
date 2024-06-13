@@ -141,19 +141,26 @@ const bookingRequest= async()=>{
     setName("")
     setEmail("")
     setMobile("")
-    console.log(response.data);
+    // console.log(response.data);
 
     setSwalProps({
       show: true,
       title: response.data.message,
-      html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br> Copy The ID to Generate Ticket  <b>${response.data.details._id}</b>`,
+      html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br>  <span style="color: red; font-style: italic;">Copy The ID to Generate Ticket</span>   <b>${response.data.details._id}</b>`,
+      confirmButtonText: 'Generate Ticket Now', 
+      showCancelButton: true, 
+      cancelButtonText: 'Generate Later', 
       onConfirm: () => {
         navigate("/ticketGenerator",{
           state:{
             ticketNumber:response.data.details._id
           }
         })
+      },
+      didClose:()=>{
+        window.location.reload(); 
       }
+      
     });
     
   } catch (error) {
@@ -272,7 +279,7 @@ const bookingRequest= async()=>{
 
           <div className=' border p-4 justify-between flex'>
             <div>
-              {seatToMap.slice(74, 86).map((key, index) => (
+              {seatToMap.slice(98, 110).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`E${key}`)}
                   className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600  pointer-events-none'
@@ -284,7 +291,7 @@ const bookingRequest= async()=>{
             </div>
 
             <div>
-              {seatToMap.slice(86, 98).map((key, index) => (
+              {seatToMap.slice(110, 122).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`E${key}`)}
                   className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600  pointer-events-none'
@@ -298,7 +305,7 @@ const bookingRequest= async()=>{
 
           <div className=' border p-4 justify-between flex'>
             <div>
-              {seatToMap.slice(98, 110).map((key, index) => (
+              {seatToMap.slice(122, 134).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`F${key}`)}
                   className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600  pointer-events-none'
@@ -310,7 +317,7 @@ const bookingRequest= async()=>{
             </div>
 
             <div>
-              {seatToMap.slice(110, 122).map((key, index) => (
+              {seatToMap.slice(134, 146).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`F${key}`)}
                   className={` inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
                     ? 'bg-red-600  pointer-events-none'
