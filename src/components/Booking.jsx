@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; // Import react-confirm-alert module
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import SweetAlert2 from 'react-sweetalert2';
@@ -30,6 +30,7 @@ const Booking = () => {
  const [emailError,setEmailError]=useState("")
  const [mobileError,setMobileError]=useState("")
 
+const navigate=useNavigate()
 
   useEffect(() => {
     if (location.state) {
@@ -147,7 +148,11 @@ const bookingRequest= async()=>{
       title: response.data.message,
       html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br> Copy The ID to Generate Ticket  <b>${response.data.details._id}</b>`,
       onConfirm: () => {
-        window.location.reload();
+        navigate("/ticketGenerator",{
+          state:{
+            ticketNumber:response.data.details._id
+          }
+        })
       }
     });
     
