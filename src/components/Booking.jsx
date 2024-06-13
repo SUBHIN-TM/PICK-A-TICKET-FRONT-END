@@ -12,7 +12,7 @@ const Booking = () => {
     time: null,
     movie: null,
     selectedDate: null,
-    totalSeats: null,
+    totalSeats: [null],
     bookingDetails: [],
     objectId:null
   });
@@ -20,6 +20,7 @@ const Booking = () => {
   const [waiting,setWaiting]=useState(false)
   const [swalProps, setSwalProps] = useState({}); //  SWEET ALERT
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
+
 
 
   const location = useLocation();
@@ -46,9 +47,14 @@ const navigate=useNavigate()
       const response = await axios.post('http://localhost:3000/booking', {
         screen, time, movie, selectedDate
       });
-      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats: response?.data?.totalSeats,objectId:response?.data?._id }));
-      // console.log(response.data);
-      setSeatToMap(Object.keys(response?.data?.totalSeats))
+      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats:response?.data?.totalSeats,objectId:response?.data?._id }));
+      // console.log("movie booking collection",response.data);
+      let array=[]
+      for(let i=0;i<=146;i++){
+        array.push(i)
+      }
+      // console.log(array); 
+      setSeatToMap(array)
     } catch (error) {
       console.error(error);
     }
@@ -56,6 +62,7 @@ const navigate=useNavigate()
 
   // console.log("all details",selectedScreen);
   // console.log(seatToMap);
+ 
 
 
   const seatSelection = (number) => {
@@ -67,7 +74,6 @@ const navigate=useNavigate()
 
   }
 
-  // console.log(selectedSeatNumbers);
 
 
 const cancelBooking=()=>{
@@ -185,28 +191,32 @@ const bookingRequest= async()=>{
       <div className='sm:flex justify-around overflow-x-auto w-full '>
 
         <div className='seat w-[1300px] flex-shrink-0'>
+        <div className=' border p-4 justify-between flex'>
+              {seatToMap.slice(1, 26).map((key, index) => (
+                <span key={index} onClick={() => seatSelection(`A${key}`)}
+                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
+                    ? 'bg-red-600  pointer-events-none'
+                    : selectedSeatNumbers.includes(`A${key}`)
+                      ? 'bg-green-600'
+                      : 'bg-black'}`} >A{key}
+                </span>
+              ))}
+            </div>
 
-          <div className=' border p-5'>
-            {seatToMap.slice(0, 26).map((key, index) => (
-              <span key={index} onClick={() => seatSelection(`A${key}`)}
-                className={`text-center inline-block w-10 mx-[4.20px]  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
-                  ? 'bg-red-600  pointer-events-none'
-                  : selectedSeatNumbers.includes(`A${key}`)
-                    ? 'bg-green-600'
-                    : 'bg-black'}`} >A{key}
-              </span>
-            ))}
-          </div>
+
+
+
 
           <div className=' border p-4 justify-between flex'>
             <div>
               {seatToMap.slice(26, 38).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`B${key}`)}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >B{key}
+                      {/* {console.log(key,index)} */}
                 </span>
               ))}
             </div>
@@ -214,7 +224,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(38, 50).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`B${key}`)}
-                  className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
@@ -229,7 +239,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(50, 62).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`C${key}`)}
-                  className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600 pointer-events-none'
                     : selectedSeatNumbers.includes(`C${key}`)
                       ? 'bg-green-600'
@@ -241,7 +251,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(62, 74).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`C${key}`)}
-                  className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`C${key}`)
                       ? 'bg-green-600'
@@ -255,7 +265,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(74, 86).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`D${key}`)}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`D${key}`)
                       ? 'bg-green-600'
@@ -267,7 +277,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(86, 98).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`D${key}`)}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`D${key}`)
                       ? 'bg-green-600'
@@ -281,7 +291,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(98, 110).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`E${key}`)}
-                  className={`text-center inline-block w-10 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`E${key}`)
                       ? 'bg-green-600'
@@ -293,7 +303,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(110, 122).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`E${key}`)}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`E${key}`)
                       ? 'bg-green-600'
@@ -307,7 +317,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(122, 134).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`F${key}`)}
-                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={`text-center inline-block w-11 mx-1  p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`F${key}`)
                       ? 'bg-green-600'
@@ -319,7 +329,7 @@ const bookingRequest= async()=>{
             <div>
               {seatToMap.slice(134, 146).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`F${key}`)}
-                  className={` inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen.totalSeats[key] !== null
+                  className={` inline-block w-11 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`F${key}`)
                       ? 'bg-green-600'
