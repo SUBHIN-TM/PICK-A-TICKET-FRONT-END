@@ -37,12 +37,15 @@ const TicketGenerator = () => {
   
   }
 
-  console.log(ticketDetails);
+  // console.log(ticketDetails);
 
   return (
-    <div className='bg-black text-white h-[524px]'>
-    <div className='p-10'>
-      <label className='mr-3' htmlFor="ticketId">Ticket ID</label> <input onChange={(e)=>setTicketIdNumber(e.target.value)} className='w-56 text-black p-1' type="text" name="" id="" value={ticketIdNumber}/> <span onClick={generate} className='cursor-pointer ml-4 border p-1 rounded-md font-semibold'>Generate</span>
+    <div className='bg-black text-white h-[460px]'>
+    <div className='p-10 grid sm:flex justify-center items-center '>
+      <div><label className='mr-3' htmlFor="ticketId">Ticket ID</label> <input onChange={(e)=>setTicketIdNumber(e.target.value)} className='w-56 text-black p-1' type="text" name="" id="" value={ticketIdNumber}/> </div>
+      <div className='sm:mt-0 mt-6 '><span onClick={generate} className='cursor-pointer sm:ml-4 border p-1 rounded-md font-semibold'>Generate</span></div>
+      
+      
     </div>
     {isWait && (
       <div className='mt-20 flex justify-center'> <ClipLoader color="#ffffff" size={50} /></div>
