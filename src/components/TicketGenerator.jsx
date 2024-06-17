@@ -1,79 +1,107 @@
 import axios from 'axios'
-import  { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react-toastify
-import { ToastContainer ,toast} from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import generatePDF from 'react-to-pdf';
+import backGroundImg from '../assets/BOX.jpg'
 
 const TicketGenerator = () => {
 
-  const targetRef = useRef();
-  const[ticketDetails,setTicketDetails]=useState({})
-  const[isWait,setIsWait]=useState(false)
-  const [ticketIdNumber,setTicketIdNumber]=useState('')
-  const location=useLocation();
 
-  useEffect(()=>{
-    if(location?.state?.ticketNumber){
+  const targetRef = useRef();
+  const [ticketDetails, setTicketDetails] = useState({})
+  const [isWait, setIsWait] = useState(false)
+  const [ticketIdNumber, setTicketIdNumber] = useState('')
+  const location = useLocation();
+
+
+
+  useEffect(() => {
+    if (location?.state?.ticketNumber) {
       setTicketIdNumber(location.state.ticketNumber)
     }
-  },[location.state])
+  }, [location.state])
 
-  const generate= async()=>{
+  const generate = async () => {
     setTicketDetails("")
-    if(!ticketIdNumber.trim()){
+    if (!ticketIdNumber.trim()) {
       toast.error('Please Fill The Input Field');
       return
     }
     try {
       setIsWait(true)
-      const response=await axios.post('http://localhost:3000/ticketGenerator',{id:ticketIdNumber})
-      setTicketDetails(response.data.details)
+      
+      // const response = await axios.post('http://localhost:3000/ticketGenerator', { id: ticketIdNumber })
+      // setTicketDetails(response.data.details)
+
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || 'An error occurred');
-    }finally{
+    } finally {
       setIsWait(false)
     }
-  
+
+  }
+
+  const backgroundStyle ={
+    backgroundImage:`url(${backGroundImg})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+   
   }
 
   // console.log(ticketDetails);
 
   return (
-    <div className='bg-black text-white h-[460px]'>
-    <div className='p-10 grid sm:flex justify-center items-center '>
-      <div><label className='mr-3' htmlFor="ticketId">Ticket ID</label> <input onChange={(e)=>setTicketIdNumber(e.target.value)} className='w-56 text-black p-1' type="text" name="" id="" value={ticketIdNumber}/> </div>
-      <div className='sm:mt-0 mt-6 '><span onClick={generate} className='cursor-pointer sm:ml-4 border p-1 rounded-md font-semibold'>Generate</span></div>
-      
-      
-    </div>
-    {isWait && (
-      <div className='mt-20 flex justify-center'> <ClipLoader color="#ffffff" size={50} /></div>
-    )}
-
- {ticketDetails?.inner &&(
+    <div className='bg-black text-white '>
+      <div className='p-10 grid sm:flex justify-center items-center '>
+        <div><label className='mr-3' htmlFor="ticketId">Ticket ID</label> <input onChange={(e) => setTicketIdNumber(e.target.value)} className='w-56 text-black p-1' type="text" name="" id="" value={ticketIdNumber} /> </div>
+        <div className='sm:mt-0 mt-6 '><span onClick={generate} className='cursor-pointer sm:ml-4 border p-1 rounded-md font-semibold'>Generate</span></div>
 
 
-   <div ref={targetRef}>
-    <span className='text-black'>Trieal</span> <br />
-    Name : {ticketDetails.inner.name} <br />
-    Mail : {ticketDetails.inner.mail} <br />
-    Mobile Number : {ticketDetails.inner.mobile} <br />
-    Number Of Booked Seats : {ticketDetails.inner.seatNumber.length} <br />
-    Seat Numbers : {`${ticketDetails.inner.seatNumber}`} <br />
-    Movie Name : {ticketDetails.main.movie} <br />
-    Date : {ticketDetails.main.date} <br />
-    Screen : {ticketDetails.main.screen} <br />
-    Time : {ticketDetails.main.time} <br />
-   </div>
- )}
-   <button onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Download PDF</button>
+      </div>
+      {isWait && (
+        <div className='mt-20 flex justify-center'> <ClipLoader color="#ffffff" size={50} /></div>
+      )}
+{/* 
+      {ticketDetails?.inner && ( */}
+        <div className='border-2 border-white w-7/12 h-[500px] m-auto' style={backgroundStyle}>
+          <div className='border border-black bg-gray-400  '>
+            <div className='text-black flex justify-between px-4 py-2'>
+              <span>Ticket Number :{ticketIdNumber} </span>
+              <span className='text-black font-bold'>PIC₭ A TIC₭ET</span>
+            </div>
+            <div>
+
+            </div>
 
 
-    
-    <ToastContainer/>
+          </div>
+        </div>
+
+
+        {/* //  <div ref={targetRef} className='bg-red-400'>
+        //   <span className='text-black'>Trieal</span> <br />
+        //   Name : {ticketDetails.inner.name} <br />
+        //   Mail : {ticketDetails.inner.mail} <br />
+        //   Mobile Number : {ticketDetails.inner.mobile} <br />
+        //   Number Of Booked Seats : {ticketDetails.inner.seatNumber.length} <br />
+        //   Seat Numbers : {`${ticketDetails.inner.seatNumber}`} <br />
+        //   Movie Name : {ticketDetails.main.movie} <br />
+        //   Date : {ticketDetails.main.date} <br />
+        //   Screen : {ticketDetails.main.screen} <br />
+        //   Time : {ticketDetails.main.time} <br />
+        //  </div>
+     */}
+    {/* // )} */}
+
+      {/* <button onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Download PDF</button>*/}
+
+
+      <ToastContainer />
     </div>
   )
 }
