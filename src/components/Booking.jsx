@@ -194,7 +194,7 @@ const bookingRequest= async()=>{
         <div className=' border p-4 justify-between flex'>
               {seatToMap.slice(1, 26).map((key, index) => (
                 <span key={index} onClick={() => seatSelection(`A${key}`)}
-                  className={`text-center inline-block w-10 mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
+                  className={`text-center inline-block w-12  mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
                     ? 'bg-red-600  pointer-events-none'
                     : selectedSeatNumbers.includes(`A${key}`)
                       ? 'bg-green-600'
@@ -346,7 +346,7 @@ const bookingRequest= async()=>{
         </div>
 
    
-          <div className=' p-4 bg-slate-500 text-lg border-2 border-black text-white mt-32 sm:mt-0  sm:w[0px]'>
+          <div className=' p-4  bg-slate-500 text-lg  border-2 border-black text-white mt-32 sm:mt-0  sm:w[0px]'>
           <div className='flex items-center'> <span className='w-6 h-6 bg-black inline-block mr-2'></span> Available</div>
           <div className='flex items-center my-1'> <span className='w-6 h-6 bg-red-600 inline-block mr-2'></span> Booked</div>
           <div className='flex items-center'> <span className='w-6 h-6 bg-green-600 inline-block mr-2'></span> Selected</div>
@@ -358,7 +358,7 @@ const bookingRequest= async()=>{
             <p>Ticket Price - RS 150</p>
             <p>Seat Numbers - {`${selectedSeatNumbers}`}</p>
             <p>Total - ₹{selectedSeatNumbers.length * 150} </p>
-            <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input   onChange={(e)=>setName(e.target.value)} className=' text-black border' type="text"  value={name}/></div>
+            <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input   onChange={(e)=>setName(e.target.value)} className=' text-black border  ' type="text"  value={name}/></div>
             {nameError && <p className='text-red-500'>{nameError}</p>}
             <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input onChange={(e)=>setEmail(e.target.value)} className='border text-black' type="text" value={email} /></div>
             {emailError && <p className='text-red-500'>{emailError}</p>}

@@ -4,9 +4,11 @@ import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react
 import { ToastContainer ,toast} from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import generatePDF from 'react-to-pdf';
 
 const TicketGenerator = () => {
 
+  const targetRef = useRef();
   const[ticketDetails,setTicketDetails]=useState({})
   const[isWait,setIsWait]=useState(false)
   const [ticketIdNumber,setTicketIdNumber]=useState('')
@@ -52,7 +54,10 @@ const TicketGenerator = () => {
     )}
 
  {ticketDetails?.inner &&(
-   <div>
+
+
+   <div ref={targetRef}>
+    <span className='text-black'>Trieal</span> <br />
     Name : {ticketDetails.inner.name} <br />
     Mail : {ticketDetails.inner.mail} <br />
     Mobile Number : {ticketDetails.inner.mobile} <br />
@@ -64,6 +69,9 @@ const TicketGenerator = () => {
     Time : {ticketDetails.main.time} <br />
    </div>
  )}
+   <button onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Download PDF</button>
+
+
     
     <ToastContainer/>
     </div>
