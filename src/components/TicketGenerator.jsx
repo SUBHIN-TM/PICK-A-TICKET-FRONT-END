@@ -69,13 +69,16 @@ const TicketGenerator = () => {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = pdf.internal.pageSize.getHeight();
 
+    pdf.setFillColor(0, 0, 0, 0); // Transparent color
+  pdf.rect(0, 0, pdfWidth, pdfHeight, 'F')
+  
     const imgProps = pdf.getImageProperties(imgData);
     const imgWidth = pdfWidth;
     const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
 
     const xOffset = (pdfWidth - imgWidth) / 2;
     // const yOffset = (pdfHeight - imgHeight) / 2;
-    const yOffset=50;
+    const yOffset=0;
 
     pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
     pdf.save('ticket.pdf');
