@@ -4,9 +4,10 @@ import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react
 import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import generatePDF,{ Resolution, Margin } from 'react-to-pdf';
+// import generatePDF,{ Resolution, Margin } from 'react-to-pdf';
 import backGroundImg from '../assets/BACK.jpg'
-
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 const TicketGenerator = () => {
@@ -56,30 +57,29 @@ const TicketGenerator = () => {
   };
 
 
-  const options = {
-    method: 'open',
-    resolution: Resolution.HIGH,
-    page: {
-      margin: Margin.SMALL,
-      format: 'letter',
-      orientation: 'landscape',
-      marginLeft: '15cm' // Adjust the left margin as needed
-    },
-    canvas: {
-      mimeType: 'image/png',
-      qualityRatio: 1,
-      backgroundColorAlpha: 0 
-    },
-    overrides: {
-      pdf: {
-        compress: true
-      },
-      canvas: {
-        useCORS: true
-      }
-    },
+  const generatePDF = async () => {
+    const canvas = await html2canvas(targetRef.current);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'pt',
+      format: 'a4',
+    });
+
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+
+    const imgProps = pdf.getImageProperties(imgData);
+    const imgWidth = pdfWidth;
+    const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+    const xOffset = (pdfWidth - imgWidth) / 2;
+    // const yOffset = (pdfHeight - imgHeight) / 2;
+    const yOffset=50;
+
+    pdf.addImage(imgData, 'PNG', xOffset, yOffset, imgWidth, imgHeight);
+    pdf.save('ticket.pdf');
   };
-  
  
  
 
@@ -129,7 +129,7 @@ const TicketGenerator = () => {
           </div>   
          
         </div>
-         <span className='ml-3 text-white p-2 '> <button className='border-2 border-white p-1 rounded-md' onClick={() => generatePDF(targetRef,options, {filename: 'Ticket.pdf'})}>Download PDF</button></span>
+         <span className='ml-3 text-white p-2 '> <button className='border-2 border-white p-1 rounded-md' onClick={() => generatePDF()}>Download PDF</button></span>
          </>
       )}
 
