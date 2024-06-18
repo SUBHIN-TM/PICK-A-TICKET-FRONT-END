@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react
 import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
-import generatePDF from 'react-to-pdf';
+import generatePDF,{ Resolution, Margin } from 'react-to-pdf';
 import backGroundImg from '../assets/BACK.jpg'
 
 
@@ -55,6 +55,32 @@ const TicketGenerator = () => {
     height: '300px'
   };
 
+
+  const options = {
+    method: 'open',
+    resolution: Resolution.HIGH,
+    page: {
+      margin: Margin.SMALL,
+      format: 'letter',
+      orientation: 'landscape',
+      marginLeft: '15cm' // Adjust the left margin as needed
+    },
+    canvas: {
+      mimeType: 'image/png',
+      qualityRatio: 1,
+      backgroundColorAlpha: 0 
+    },
+    overrides: {
+      pdf: {
+        compress: true
+      },
+      canvas: {
+        useCORS: true
+      }
+    },
+  };
+  
+ 
  
 
   return (
@@ -75,7 +101,7 @@ const TicketGenerator = () => {
       {ticketDetails?.inner && (
         <>
         
-        <div ref={targetRef} className='mb-3 border-2 border-white sm:w-12/12 lg:w-5/12 h-[4-0px] m-auto' >
+        <div ref={targetRef} className='mb-3 border-2 border-white sm:w-12/12 lg:w-5/12 h-[4-0px] m-auto'style={{ backgroundColor: 'transparent' }} >
           <div className='border border-black bg-gray-400  '>
 
             <div className='text-white flex items-center justify-between px-4 py-2'>
@@ -103,7 +129,7 @@ const TicketGenerator = () => {
           </div>   
          
         </div>
-         <span className='ml-3 text-white p-2 '> <button className='border-2 border-white p-1 rounded-md' onClick={() => generatePDF(targetRef, {filename: 'page.pdf'})}>Download PDF</button></span>
+         <span className='ml-3 text-white p-2 '> <button className='border-2 border-white p-1 rounded-md' onClick={() => generatePDF(targetRef,options, {filename: 'Ticket.pdf'})}>Download PDF</button></span>
          </>
       )}
 
