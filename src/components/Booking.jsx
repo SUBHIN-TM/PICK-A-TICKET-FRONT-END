@@ -4,6 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert'; // Import react-confirm-alert module
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import SweetAlert2 from 'react-sweetalert2';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react-toastify
+import { ToastContainer, toast } from 'react-toastify';
+import prompts from 'prompts'
 
 const Booking = () => {
   const [seatToMap, setSeatToMap] = useState([])
@@ -30,6 +33,8 @@ const Booking = () => {
  const [nameError,setNameError]=useState("")
  const [emailError,setEmailError]=useState("")
  const [mobileError,setMobileError]=useState("")
+
+
 
 const navigate=useNavigate()
 
@@ -117,8 +122,11 @@ if(!isValidated){
       {
         label: 'Yes',
         onClick: () => {
-          bookingRequest()
-          // Perform further actions for valid data and confirmed booking
+
+
+          
+
+          otpSecion()
         }
       },
       {
@@ -133,6 +141,35 @@ if(!isValidated){
  
 }
 }
+
+
+
+const otpSecion= async()=>{
+
+  try {
+    const generateOTP=()=> {
+      return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
+    }
+    const otp=generateOTP()
+    const response=await axios.post('http://localhost:3000/otpGeneration',{otp,mobile})
+     if(response.data.message){
+     const InputOTP=prompt('Please verify your OTP that was sent to your mobile number')
+      if(InputOTP==otp){
+        console.log("verified");
+         bookingRequest()
+      }else{
+        console.log("wrong");
+        toast.error('OTP Verification Failed');
+      }
+     }
+
+  } catch (error) {
+    console.error(error);
+  }
+ 
+}
+
+
 
 //POST REQUST FOR BOOKING SEATS
 const bookingRequest= async()=>{
@@ -377,9 +414,10 @@ const bookingRequest= async()=>{
         </div>
       </div>
 
-
+      
 
       <div>
+      <ToastContainer />
     <SweetAlert2 {...swalProps} />
 </div>
     
