@@ -6,7 +6,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import SweetAlert2 from 'react-sweetalert2';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react-toastify
 import { ToastContainer, toast } from 'react-toastify';
-import prompts from 'prompts'
+
 
 const Booking = () => {
   const [seatToMap, setSeatToMap] = useState([])
@@ -17,26 +17,29 @@ const Booking = () => {
     selectedDate: null,
     totalSeats: [null],
     bookingDetails: [],
-    objectId:null
+    objectId: null
   });
 
-  const [waiting,setWaiting]=useState(false)
+  const [waiting, setWaiting] = useState(false)
   const [swalProps, setSwalProps] = useState({}); //  SWEET ALERT
   const [selectedSeatNumbers, setSelectedSeatNumbers] = useState([])
+  const [isModalOpen, setModal] = useState(false)
+  const [inputOTP, setInputOTP] = useState("")
+  const [generatedOTP, setGeneratedOTP] = useState("")
 
 
 
   const location = useLocation();
- const [name,setName]=useState("")
- const [email,setEmail]=useState("")
- const [mobile,setMobile]=useState("")
- const [nameError,setNameError]=useState("")
- const [emailError,setEmailError]=useState("")
- const [mobileError,setMobileError]=useState("")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [mobile, setMobile] = useState("")
+  const [nameError, setNameError] = useState("")
+  const [emailError, setEmailError] = useState("")
+  const [mobileError, setMobileError] = useState("")
 
 
 
-const navigate=useNavigate()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (location.state) {
@@ -52,10 +55,10 @@ const navigate=useNavigate()
       const response = await axios.post('http://localhost:3000/booking', {
         screen, time, movie, selectedDate
       });
-      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats:response?.data?.totalSeats,objectId:response?.data?._id }));
+      setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats: response?.data?.totalSeats, objectId: response?.data?._id }));
       // console.log("movie booking collection",response.data);
-      let array=[]
-      for(let i=0;i<=146;i++){
+      let array = []
+      for (let i = 0; i <= 146; i++) {
         array.push(i)
       }
       // console.log(array); 
@@ -67,7 +70,7 @@ const navigate=useNavigate()
 
   // console.log("all details",selectedScreen);
   // console.log(seatToMap);
- 
+
 
 
   const seatSelection = (number) => {
@@ -81,140 +84,149 @@ const navigate=useNavigate()
 
 
 
-const cancelBooking=()=>{
-  setSelectedSeatNumbers([])
-}
-
-const continueBooking=()=>{
-  let isValidated=true
- 
-  const emailCheck=(typedMail)=>{
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(typedMail)
-  }
-
-if(name.trim().length>=20 || name.trim().length <=2){
-  isValidated=false
-  setNameError("Length Should Between 3 - 20")
-}else{
-  setNameError("")
-}
-if(!emailCheck(email)){
-  isValidated=false
-  setEmailError("Email should be valid")
-}else{
-  setEmailError("")
-}
-if(mobile.length!=10){
-  isValidated=false
-  setMobileError("Valid Mobile Number Required")
-}else{
-  setMobileError("")
-}
-if(!isValidated){
-  return 
-}else{
-  //VALIDATED 
-  confirmAlert({
-    title: 'Confirm booking',
-    message: 'Are you sure you want to proceed with the booking?',
-    buttons: [
-      {
-        label: 'Yes',
-        onClick: () => {
-
-
-          
-
-          otpSecion()
-        }
-      },
-      {
-        label: 'No',
-        onClick: () => {
-        return
-         
-        }
-      }
-    ]
-  });
- 
-}
-}
-
-
-
-const otpSecion= async()=>{
-
-  try {
-    const generateOTP=()=> {
-      return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
-    }
-    const otp=generateOTP()
-    const response=await axios.post('http://localhost:3000/otpGeneration',{otp,mobile})
-     if(response.data.message){
-     const InputOTP=prompt('Please verify your OTP that was sent to your mobile number')
-      if(InputOTP==otp){
-        console.log("verified");
-         bookingRequest()
-      }else{
-        console.log("wrong");
-        toast.error('OTP Verification Failed');
-      }
-     }
-
-  } catch (error) {
-    console.error(error);
-  }
- 
-}
-
-
-
-//POST REQUST FOR BOOKING SEATS
-const bookingRequest= async()=>{
-  setWaiting(true)
-  let total=selectedSeatNumbers.length * 150;
-  // console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
-  try {
-    const response=await axios.post('http://localhost:3000/seatSelection',{
-      total,selectedScreen,selectedSeatNumbers,name,email,mobile
-    })
+  const cancelBooking = () => {
     setSelectedSeatNumbers([])
-    setName("")
-    setEmail("")
-    setMobile("")
-    // console.log(response.data);
+  }
 
-    setSwalProps({
-      show: true,
-      title: response.data.message,
-      html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br>  <span style="color: red; font-style: italic;">Copy The ID to Generate Ticket</span>   <b>${response.data.details._id}</b>`,
-      confirmButtonText: 'Generate Ticket Now', 
-      showCancelButton: true, 
-      cancelButtonText: 'Generate Later', 
-      onConfirm: () => {
-        navigate("/ticketGenerator",{
-          state:{
-            ticketNumber:response.data.details._id
+  const continueBooking = () => {
+    let isValidated = true
+
+    const emailCheck = (typedMail) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(typedMail)
+    }
+
+    if (name.trim().length >= 20 || name.trim().length <= 2) {
+      isValidated = false
+      setNameError("Length Should Between 3 - 20")
+    } else {
+      setNameError("")
+    }
+    if (!emailCheck(email)) {
+      isValidated = false
+      setEmailError("Email should be valid")
+    } else {
+      setEmailError("")
+    }
+    if (mobile.length != 10) {
+      isValidated = false
+      setMobileError("Valid Mobile Number Required")
+    } else {
+      setMobileError("")
+    }
+    if (!isValidated) {
+      return
+    } else {
+      //VALIDATED 
+      confirmAlert({
+        title: 'Confirm booking',
+        message: 'Are you sure you want to proceed with the booking?',
+        buttons: [
+          {
+            label: 'Yes',
+            onClick: () => {
+              otpSecion()
+            }
+          },
+          {
+            label: 'No',
+            onClick: () => {
+              return
+
+            }
           }
-        })
-      },
-      didClose:()=>{
-        window.location.reload(); 
+        ]
+      });
+
+    }
+  }
+
+
+
+  const otpSecion = async () => {
+
+    try {
+      const generateOTP = () => {
+        return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
       }
+      const otp = generateOTP()
+      setGeneratedOTP(otp)
+
+      const response = await axios.post('http://localhost:3000/otpGeneration', { otp, mobile })
+      if (response.data.message) {
+        toast.success("OTP Has been sent to your Mobile Number")
+        setModal(true)
+
+      } else {
+        toast.error('Cannot Proceed Right Now Unexpected Error To Send OTP');
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
+  const handleOTPVerification = () => {
+    if (inputOTP == generatedOTP) {
+      console.log("verified");
+      setModal(false)
+      bookingRequest()
+    } else {
+      console.log("Verification Failed");
+      toast.error('OTP Verification Failed');
+    }
+  }
+
+
+
+
+
+  //POST REQUST FOR BOOKING SEATS
+  const bookingRequest = async () => {
+    setWaiting(true)
+    let total = selectedSeatNumbers.length * 150;
+    // console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
+    try {
+      const response = await axios.post('http://localhost:3000/seatSelection', {
+        total, selectedScreen, selectedSeatNumbers, name, email, mobile
+      })
       
-    });
-    
-  } catch (error) {
-    console.error(error);
-  }
+      setSelectedSeatNumbers([])
+      setName("")
+      setEmail("")
+      setMobile("")
+      // console.log(response.data);
 
-  finally{
-    setWaiting(false)
-  }
+      setSwalProps({
+        show: true,
+        title: response.data.message,
+        html: ` &#10004; <br> Seat Numbers: ${response.data.details.seatNumber.join(', ')} <br>  <span style="color: red; font-style: italic;">Copy The ID to Generate Ticket</span>   <b>${response.data.details._id}</b>`,
+        confirmButtonText: 'Generate Ticket Now',
+        showCancelButton: true,
+        cancelButtonText: 'Generate Later',
+        onConfirm: () => {
+          navigate("/ticketGenerator", {
+            state: {
+              ticketNumber: response.data.details._id
+            }
+          })
+        },
+        didClose: () => {
+          window.location.reload();
+        }
 
-}
+      });
+
+    } catch (error) {
+      console.error(error);
+    }
+
+    finally {
+      setWaiting(false)
+    }
+
+  }
 
 
   return (
@@ -228,17 +240,17 @@ const bookingRequest= async()=>{
       <div className='sm:flex justify-around overflow-x-auto w-full '>
 
         <div className='seat w-[1300px] flex-shrink-0'>
-        <div className=' border p-4 justify-between flex'>
-              {seatToMap.slice(1, 26).map((key, index) => (
-                <span key={index} onClick={() => seatSelection(`A${key}`)}
-                  className={`text-center inline-block w-12  mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
-                    ? 'bg-red-600  pointer-events-none'
-                    : selectedSeatNumbers.includes(`A${key}`)
-                      ? 'bg-green-600'
-                      : 'bg-black'}`} >A{key}
-                </span>
-              ))}
-            </div>
+          <div className=' border p-4 justify-between flex'>
+            {seatToMap.slice(1, 26).map((key, index) => (
+              <span key={index} onClick={() => seatSelection(`A${key}`)}
+                className={`text-center inline-block w-12  mx-1   p-2 cursor-pointer text-white ${selectedScreen?.totalSeats.includes(key)
+                  ? 'bg-red-600  pointer-events-none'
+                  : selectedSeatNumbers.includes(`A${key}`)
+                    ? 'bg-green-600'
+                    : 'bg-black'}`} >A{key}
+              </span>
+            ))}
+          </div>
 
 
 
@@ -253,7 +265,7 @@ const bookingRequest= async()=>{
                     : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >B{key}
-                      {/* {console.log(key,index)} */}
+                  {/* {console.log(key,index)} */}
                 </span>
               ))}
             </div>
@@ -382,45 +394,68 @@ const bookingRequest= async()=>{
 
         </div>
 
-   
-          <div className=' p-4  bg-slate-500 text-lg  border-2 border-black text-white mt-32 sm:mt-0  sm:w[0px]'>
+
+        <div className=' p-4  bg-slate-500 text-lg  border-2 border-black text-white mt-32 sm:mt-0  sm:w[0px]'>
           <div className='flex items-center'> <span className='w-6 h-6 bg-black inline-block mr-2'></span> Available</div>
           <div className='flex items-center my-1'> <span className='w-6 h-6 bg-red-600 inline-block mr-2'></span> Booked</div>
           <div className='flex items-center'> <span className='w-6 h-6 bg-green-600 inline-block mr-2'></span> Selected</div>
-            <h1 className='text-xl my-1 font-bold mt-3'>Show Details</h1>
-            <p>Screen - {selectedScreen.screen}</p>
-            <p>Movie - {selectedScreen.movie}</p>
-            <p>Timing - {selectedScreen.time} </p>
-            <p>Date - {selectedScreen.selectedDate ? selectedScreen.selectedDate.toString() : null} </p>
-            <p>Ticket Price - RS 150</p>
-            <p>Seat Numbers - {`${selectedSeatNumbers}`}</p>
-            <p>Total - ₹{selectedSeatNumbers.length * 150} </p>
-            <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input   onChange={(e)=>setName(e.target.value)} className=' text-black border  ' type="text"  value={name}/></div>
-            {nameError && <p className='text-red-500'>{nameError}</p>}
-            <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input onChange={(e)=>setEmail(e.target.value)} className='border text-black' type="text" value={email} /></div>
-            {emailError && <p className='text-red-500'>{emailError}</p>}
-            <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e)=>setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
-            {mobileError && <p className='text-red-500'>{mobileError}</p>}
-  
-              { selectedSeatNumbers.length>0&& !waiting && (
-                 <div className='flex justify-around mt-2'>
-                <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
+          <h1 className='text-xl my-1 font-bold mt-3'>Show Details</h1>
+          <p>Screen - {selectedScreen.screen}</p>
+          <p>Movie - {selectedScreen.movie}</p>
+          <p>Timing - {selectedScreen.time} </p>
+          <p>Date - {selectedScreen.selectedDate ? selectedScreen.selectedDate.toString() : null} </p>
+          <p>Ticket Price - RS 150</p>
+          <p>Seat Numbers - {`${selectedSeatNumbers}`}</p>
+          <p>Total - ₹{selectedSeatNumbers.length * 150} </p>
+          <div className='flex justify-between mt-2'> <label htmlFor="name">Name  </label> <input onChange={(e) => setName(e.target.value)} className=' text-black border  ' type="text" value={name} /></div>
+          {nameError && <p className='text-red-500'>{nameError}</p>}
+          <div className='my-2 flex justify-between'> <label htmlFor="name">Email </label> <input onChange={(e) => setEmail(e.target.value)} className='border text-black' type="text" value={email} /></div>
+          {emailError && <p className='text-red-500'>{emailError}</p>}
+          <div className='flex justify-between mb-3'> <label className='mr-3' htmlFor="name">Mobile  </label>  <input onChange={(e) => setMobile(e.target.value)} className='border text-black' type="number" value={mobile} /></div>
+          {mobileError && <p className='text-red-500'>{mobileError}</p>}
+
+          {selectedSeatNumbers.length > 0 && !waiting && (
+            <div className='flex justify-around mt-2'>
+              <div><button onClick={continueBooking} className='bg-green-700 p-1 px-3 font-semibold ' type="button">Continue</button> </div>
               <div><button onClick={cancelBooking} className='bg-red-700 px-3 p-1 font-semibold' type="button">Cancel</button> </div>
-              </div>
-              )}
-              
-           
+            </div>
+          )}
 
         </div>
       </div>
 
-      
+
 
       <div>
-      <ToastContainer />
-    <SweetAlert2 {...swalProps} />
-</div>
-    
+        <ToastContainer />
+        <SweetAlert2 {...swalProps} />
+      </div>
+
+
+      {isModalOpen && (
+        <div className='modal p-4 border-2 border-black rounded-lg'>
+          <div className="">
+            <div className="">
+              <h2 className='text-lg font-bold mb-3'>OTP Verification</h2>
+              <p className=' font-medium'>Please Verify Your OTP That Was Sent To Your Mobile Number</p>
+              <input
+                className='my-2 border border-black p-1 bg-gray-100 text-black font-semibold'
+                type="text"
+                placeholder="Enter OTP"
+                value={inputOTP}
+                onChange={(e) => setInputOTP(e.target.value)}
+              />
+              <div className='flex gap-5 my-2 justify-center'>
+                <button className='border px-2 py-1 bg-black text-white hover:text-black hover:bg-white hover:border-black hover:font-medium' onClick={handleOTPVerification}>Verify</button>
+                <button onClick={otpSecion} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
+                <button onClick={() => window.location.reload()} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Cancel</button>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      )}
 
 
 
