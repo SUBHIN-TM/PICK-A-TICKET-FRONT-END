@@ -97,7 +97,7 @@ const TicketGenerator = () => {
       )}
       
       {!ticketDetails?.inner && (
-   <div className='h-[348px]'></div>
+   <div className='h-[412px]'></div>
       )}
    
 

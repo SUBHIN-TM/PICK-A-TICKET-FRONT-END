@@ -51,7 +51,7 @@ return(
     <>
     <div id="home" className="text-white w-full bg-gray-900 h-20 md:h-24 grid items-center">
        <div className="flex md:flex md:justify-between w-12/12 ">
-        <div onClick={handleHomeClick} className="cursor-pointer w-11/12 font-bold font-mono text-2xl px-7 md:w-4/12">PIC₭ A TIC₭ET</div>
+        <div onClick={handleHomeClick} className="cursor-pointer w-11/12 font-bold font-mono lg:text-3xl text-2xl px-7 md:w-4/12">PIC₭ A TIC₭ET</div>
         {!isTicketPage&& (
            <div onClick={toggleOpen} className="md:hidden text-2xl px-7 w-3/12  flex justify-end items-center "><HiOutlineBars3 /></div>
         )}
