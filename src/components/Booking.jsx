@@ -6,6 +6,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import SweetAlert2 from 'react-sweetalert2';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS file for react-toastify
 import { ToastContainer, toast } from 'react-toastify';
+import { URL } from '../Constants/Links';
 
 
 const Booking = () => {
@@ -45,33 +46,28 @@ const Booking = () => {
     if (location.state) {
       const { screen, time, movie, selectedDate } = location.state;
       setSelectedScreen({ screen, time, movie, selectedDate });
-      fetchBooking(screen, time, movie, selectedDate)
+      fetchBooking(screen, time, movie, selectedDate) //CALLED THE FETCHING DETAILS FOR TO BOOK THE SEATS
     }
   }, [location.state]);
 
 
   const fetchBooking = async (screen, time, movie, selectedDate) => {
     try {
-      const response = await axios.post('http://localhost:3000/booking', {
+      const response = await axios.post(`${URL}/booking`, {
         screen, time, movie, selectedDate
       });
       setSelectedScreen(prevState => ({ ...prevState, selectedDate: response.data.date, bookingDetails: response?.data?.bookingDetails, totalSeats: response?.data?.totalSeats, objectId: response?.data?._id }));
       // console.log("movie booking collection",response.data);
-      let array = []
+    
+      let array = []  //TO MAKE 146 SEATS
       for (let i = 0; i <= 146; i++) {
         array.push(i)
       }
-      // console.log(array); 
       setSeatToMap(array)
     } catch (error) {
       console.error(error);
     }
   }
-
-  // console.log("all details",selectedScreen);
-  // console.log(seatToMap);
-
-
 
   const seatSelection = (number) => {
     if (selectedSeatNumbers.includes(number)) {
@@ -152,7 +148,7 @@ const Booking = () => {
       const otp = generateOTP()
       setGeneratedOTP(otp)
 
-      const response = await axios.post('http://localhost:3000/otpGeneration', { otp, mobile })
+      const response = await axios.post(`${URL}/otpGeneration`, { otp, mobile })
       if (response.data.message) {
         toast.success("OTP Has been sent to your Mobile Number")
         setModal(true)
@@ -180,15 +176,13 @@ const Booking = () => {
 
 
 
-
-
   //POST REQUST FOR BOOKING SEATS
   const bookingRequest = async () => {
     setWaiting(true)
     let total = selectedSeatNumbers.length * 150;
     // console.log(selectedScreen,selectedSeatNumbers,total,name,email,mobile);
     try {
-      const response = await axios.post('http://localhost:3000/seatSelection', {
+      const response = await axios.post(`${URL}/seatSelection`, {
         total, selectedScreen, selectedSeatNumbers, name, email, mobile
       })
       
@@ -196,7 +190,6 @@ const Booking = () => {
       setName("")
       setEmail("")
       setMobile("")
-      // console.log(response.data);
 
       setSwalProps({
         show: true,
@@ -265,7 +258,6 @@ const Booking = () => {
                     : selectedSeatNumbers.includes(`B${key}`)
                       ? 'bg-green-600'
                       : 'bg-black'}`} >B{key}
-                  {/* {console.log(key,index)} */}
                 </span>
               ))}
             </div>
@@ -424,8 +416,6 @@ const Booking = () => {
         </div>
       </div>
 
-
-
       <div>
         <ToastContainer />
         <SweetAlert2 {...swalProps} />
@@ -449,14 +439,12 @@ const Booking = () => {
                 <button className='border px-2 py-1 bg-black text-white hover:text-black hover:bg-white hover:border-black hover:font-medium' onClick={handleOTPVerification}>Verify</button>
                 <button onClick={otpSecion} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
                 <button onClick={() => window.location.reload()} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Cancel</button>
-
               </div>
 
             </div>
           </div>
         </div>
       )}
-
 
 
     </div>

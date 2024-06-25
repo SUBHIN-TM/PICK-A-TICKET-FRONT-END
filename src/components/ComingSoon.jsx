@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
 import Carosel from "./Carosel";
-const ComingSoon=({comingSoon})=>{
+import { ClipLoader } from 'react-spinners';
+
+const ComingSoon=({comingSoon})=>{//DESTRUCTURE THE COMING SOON IMAGES 
     if(!comingSoon){
-        return
+        return <div className='mt-20 flex justify-center'> <ClipLoader color="#ffffff" size={50} /></div>
     }
     return (
         <div id="comingSoon" className="bg-black text-white ">

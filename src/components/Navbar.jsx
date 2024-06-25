@@ -1,5 +1,4 @@
 import { useState,useEffect } from "react";
-import { CgProfile } from "react-icons/cg";
 import { HiOutlineBars3 } from "react-icons/hi2";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -8,7 +7,7 @@ const Navbar=()=>{
     const [toggle,setToggle]=useState(false)
     const navigate=useNavigate()
     const location=useLocation()
-    const [isTicketPage,setIsTicketPage]=useState(false)
+    const [isTicketPage,setIsTicketPage]=useState(false)  //IF THE TICKET GENERATOR PAGE COMES NAVBAR GETS MODIFIED
 
     useEffect(() => {
         if (location.pathname === '/ticketGenerator') {
@@ -23,8 +22,7 @@ const Navbar=()=>{
      showtimecomponent.scrollIntoView({ behavior: 'smooth' });
     }
  
-    const handleHomeClick=()=>{
-        
+    const handleHomeClick=()=>{      
       navigate("/")
     }
 
@@ -34,7 +32,7 @@ const Navbar=()=>{
         comingSoonComponent.scrollIntoView({ behavior: 'smooth' });
     }
     
-    const toggleOpen=()=>{
+    const toggleOpen=()=>{ //TOGGLE TO DISPLAY FOR MOBILE DISPLAY
         toggle?setToggle(false):setToggle(true)
     }
 
@@ -43,20 +41,16 @@ const Navbar=()=>{
   }
 
 
-//   if(isTicketPage){
-//     alert("welcome to ticket generator page")
-//   }
-
 return(
     <>
     <div id="home" className="text-white w-full bg-gray-900 h-20 md:h-24 grid items-center">
        <div className="flex md:flex md:justify-between w-12/12 ">
         <div onClick={handleHomeClick} className="cursor-pointer w-11/12 font-bold font-mono lg:text-3xl text-2xl px-7 md:w-4/12">PIC₭ A TIC₭ET</div>
-        {!isTicketPage&& (
+        {!isTicketPage&& ( // FOR TICKET GENERATOR NO NEED OF TOGGLE BUTTON SHOWN
            <div onClick={toggleOpen} className="md:hidden text-2xl px-7 w-3/12  flex justify-end items-center "><HiOutlineBars3 /></div>
         )}
       
-        {!isTicketPage &&(
+        {!isTicketPage &&( //IS TICKET PAGE GENERATOR NO NEED TO DISPLAY THE BELOW NAV BARS BUTTONS ,IN OTHER ROUTE IT WILL BE VISIBLE
             <div className="hidden  md:text-sm lg:text-lg  w-6/12  md:flex justify-around  font-semibold">
             <button onClick={handleHomeClick}>HOME</button>
             <button onClick={handleShowTimeClick}>SHOW TIME</button>

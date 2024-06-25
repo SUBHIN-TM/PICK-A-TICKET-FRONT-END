@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import {useDispatch, useSelector } from "react-redux"
 import { fetchDetails } from "../redux/movieReducer"
 import { ClipLoader } from 'react-spinners';
+import { URL } from "../Constants/Links"
 
 const HomePage=()=>{
     const movieDataBase=useSelector((store) =>store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
@@ -19,9 +20,10 @@ const HomePage=()=>{
         home()
     },[])
 
+
     const home=async()=>{
      try {
-        const response=await axios.get('http://localhost:3000/')
+        const response=await axios.get(`${URL}`)
         dispatch(fetchDetails({movies:response.data.allData,screens:response.data.screens})) //USING DISPATCH WE CALLED AN ACTION FETCHDETAILS IT IS ALREADY WRITTEN FUNCTION FOR STORE THE DATAS TO THE DATABASE OF REDUX
         setComingSoon(response.data.ComingSoon) //FETCHED COMING SOON MOVIE DETAILS FROM DATABASE
     } catch (error) {
@@ -29,7 +31,7 @@ const HomePage=()=>{
      }
     }
    
-    if(!movieDataBase || !comingSoon){
+    if(!movieDataBase || !comingSoon){ //IF NOT DETAILS FETCHED IT WILL DISPLAY
         return(
             <div >
              <Navbar />
@@ -41,8 +43,6 @@ const HomePage=()=>{
         )
     }
 
-
-    // console.log("Redux Database",movieDataBase);
     return(
         <>
         <Navbar />

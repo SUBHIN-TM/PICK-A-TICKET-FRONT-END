@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Booking from "./Booking";
+import  { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from 'react-spinners';
 
 const ShowTime = () => {
   const [shows, setshows] = useState("")
@@ -9,7 +9,7 @@ const ShowTime = () => {
   const movieDataBase = useSelector((store) => store.MovieDataBase.movieDetails)//ENABLING THE DATA BASE FROM REDUX
   const screensDatabase = useSelector((store) => store.MovieDataBase.screens)
   const navigate = useNavigate();
-  // console.log(screensDatabase);
+
 
   useEffect(() => { //WHENEVER RETRIEVE THE DATA FROM REDUX IT SHOULD COPY IN USEEFFECT OTHER WISE IT WILL MAKE IT AS A INFINITE LOOP
     setshows(movieDataBase)
@@ -34,36 +34,33 @@ const ShowTime = () => {
   }
 
 
-  const chooseDate = (date) => {
+  const chooseDate = (date) => { //WHENEVER THE DATE CHOOSING MOVIE DATABASE GOT FILTERED TO GET THE AVAILBALE MOVIES ON THAT SELECTED DATE
     let formattedDate = new Date(date)
     let filteredMovies = movieDataBase.filter((movie) => {
       const fromDate = new Date(movie?.releaseRange?.from)
       const toDate = new Date(movie?.releaseRange?.to)
       return formattedDate >= fromDate && formattedDate <= toDate
     })
-    // console.log(filteredMovies);
-    setshows(filteredMovies)
-    setSelectedDate(formattedDate)
+
+    setshows(filteredMovies) //CHANGED THE DATABASE OF MOVIE LISTS WIHT SELECTED DATE
+    setSelectedDate(formattedDate) //TO DISPLAY THE DATE ONLY AND AVOIDED THE BALANCE TIME STAMP DETAILS
   }
 
 
   const slotSelect = ({ screen, time, movie }) => {
-    // console.log(screen,time,movie,selectedDate);
     navigate("/booking", {
       state: {
-        screen, time, movie, selectedDate
+        screen, time, movie, selectedDate  //PASSED THIS DETAILS TO BOOKING ROUTER AND IT CAN BE DESTRUCTURE FROM THE BOOKING ROUTE
       }
     })
-
-
   }
 
   if (!shows) {
-    return "Loading"
+   return <div className='mt-20 flex justify-center'> <ClipLoader color="#ffffff" size={50} /></div>
+   
   }
 
 
-  // console.log("day", selectedDate.getDate());
 
   return (
     <div id="show-time" className="bg-black p-11">
@@ -73,7 +70,6 @@ const ShowTime = () => {
       <div className="w-12/12 flex justify-around sm:text-lg text-sm sm:w-/12 lg:w-7/12 text-gray-500 ">
         {dates.map((date) =>
         (
-
           <button onClick={() => chooseDate(date)} className={`${date.getDate() === selectedDate.getDate() ? "bg-white text-black" : ""} border p-1 m-1 rounded-lg sm:p-2 hover:bg-white hover:text-black`} key={`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}>
             {console.log(date.getDate())}
             {days[date.getDay()]} {date.getDate()}-{date.getMonth() + 1} {date.getFullYear()}
@@ -89,7 +85,6 @@ const ShowTime = () => {
                 <h1>{shows.name}</h1>
                 <h1>{shows.language}</h1>
                 <h1>{shows.duration}</h1>
-
                 <div className=" mt-6 md:mt-40 ">
                   {screensDatabase
                     .filter((screen) => screen.movie == shows.name)
@@ -101,18 +96,13 @@ const ShowTime = () => {
                             <span key={time} className="border shadow-md shadow-yellow-600 bg-white text-black cursor-pointer p-1 sm:p-2  hover:bg-black hover:text-white hover:border hover:shadow-lime-500  " onClick={() => slotSelect({ screen: screen.screen, time: time, movie: shows.name })} >{time}</span>
                           ))}
                         </div>
-
                       </div>
                     ))}
                 </div>
               </div>
-
               <div className="mt-2">
-
               </div>
-
             </div>
-
           </div>
         ))}
       </div>
