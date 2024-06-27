@@ -10,3 +10,7 @@
     text-align: center;
     width: auto;
   }
+
+  .resendButton:disabled{
+    opacity: 0.4;
+  }

@@ -27,6 +27,9 @@ const Booking = () => {
   const [isModalOpen, setModal] = useState(false)
   const [inputOTP, setInputOTP] = useState("")
   const [generatedOTP, setGeneratedOTP] = useState("")
+  const [canResendOTP,setCanResendOTP]=useState(false)
+  const [resendTimer,setResendTimer]=useState(60)
+  const [timerColor,setTimerColor]=useState('text-green-500')
 
 
 
@@ -49,6 +52,18 @@ const Booking = () => {
       fetchBooking(screen, time, movie, selectedDate) //CALLED THE FETCHING DETAILS FOR TO BOOK THE SEATS
     }
   }, [location.state]);
+
+  useEffect(()=>{
+    if(resendTimer<=10){
+      setTimerColor("text-red-500")
+    }else if(resendTimer<=30 && resendTimer>=11){
+      setTimerColor("text-yellow-500")
+    }
+    else{
+      setTimerColor("text-green-500")
+    }
+    
+  },[resendTimer])
 
 
   const fetchBooking = async (screen, time, movie, selectedDate) => {
@@ -138,12 +153,30 @@ const Booking = () => {
   }
 
 
+  const startResendTimer = () => {
+    setCanResendOTP(false)
+    let seconds = 60;
+    const interval = setInterval(() => {
+      seconds--;
+      setResendTimer(seconds);
+      if (seconds === 0) {
+        clearInterval(interval);
+        setCanResendOTP(true); // Enable resend button
+      }
+    }, 1000);
+  };
+  
+  
+
+
+
   const resendOtp=()=>{
     otpSecion()
   }
 
-  const otpSecion = async () => {
 
+  const otpSecion = async () => {
+    startResendTimer()
     try {
       const generateOTP = () => {
         return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
@@ -420,6 +453,7 @@ const Booking = () => {
 
         </div>
       </div>
+      <button disabled={true} onClick={()=>alert()} className='border p-2 resendButton '>hh</button>
 
       <div>
         <ToastContainer />
@@ -431,7 +465,7 @@ const Booking = () => {
         <div className='modal p-4 border-2 border-black rounded-lg'>
           <div className="">
             <div className="">
-              <h2 className='text-lg font-bold mb-3'>OTP Verification</h2>
+              <h2 className='text-lg font-bold mb-3'>OTP Verification <span className={`${timerColor}`}>{resendTimer}</span></h2>
               <p className=' font-medium'>Please Verify Your OTP That Was Sent To Your Mobile Number</p>
               <input
                 className='my-2 border border-black p-1 bg-gray-100 text-black font-semibold'
@@ -442,7 +476,8 @@ const Booking = () => {
               />
               <div className='flex gap-5 my-2 justify-center'>
                 <button className='border px-2 py-1 bg-black text-white hover:text-black hover:bg-white hover:border-black hover:font-medium' onClick={handleOTPVerification}>Verify</button>
-                <button onClick={resendOtp} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
+                <button disabled={!canResendOTP}  onClick={resendOtp} className='resendButton border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
+                
                 <button onClick={() => window.location.reload()} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Cancel</button>
               </div>
 
