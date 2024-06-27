@@ -138,6 +138,9 @@ const Booking = () => {
   }
 
 
+  const resendOtp=()=>{
+    otpSecion()
+  }
 
   const otpSecion = async () => {
 
@@ -162,6 +165,8 @@ const Booking = () => {
     }
 
   }
+
+
 
   const handleOTPVerification = () => {
     if (inputOTP == generatedOTP) {
@@ -437,7 +442,7 @@ const Booking = () => {
               />
               <div className='flex gap-5 my-2 justify-center'>
                 <button className='border px-2 py-1 bg-black text-white hover:text-black hover:bg-white hover:border-black hover:font-medium' onClick={handleOTPVerification}>Verify</button>
-                <button onClick={otpSecion} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
+                <button onClick={resendOtp} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Resend</button>
                 <button onClick={() => window.location.reload()} className='border px-2 py-1 bg-black text-white  hover:text-black hover:bg-white hover:border-black hover:font-medium' >Cancel</button>
               </div>
 
