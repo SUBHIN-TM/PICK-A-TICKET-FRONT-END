@@ -453,7 +453,6 @@ const Booking = () => {
 
         </div>
       </div>
-      <button disabled={true} onClick={()=>alert()} className='border p-2 resendButton '>hh</button>
 
       <div>
         <ToastContainer />
